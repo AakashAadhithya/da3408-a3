@@ -1,0 +1,9 @@
+run                              peak workers CPU% avg workers CPU% peak workers mem peak 1-worker mem peak driver mem
+ray_full_FAILED_naive_dedupe                  330%              20%          7.08 GiB           3.77 GiB         1.26 GiB
+ray_full_run1                                 401%             182%          6.82 GiB           3.46 GiB         1.80 GiB
+ray_full_run2                                 396%             196%          6.59 GiB           3.33 GiB         2.01 GiB
+ray_full_run3                                 403%             186%          6.73 GiB           3.49 GiB         1.94 GiB
+spark_full_run1                               428%             381%          5.32 GiB           2.73 GiB         2.74 GiB
+spark_full_run2                               416%             378%          5.65 GiB           2.90 GiB         2.59 GiB
+spark_full_run3                               419%             384%          5.31 GiB           2.73 GiB         2.71 GiB
+spark_full_run4                               451%             380%          5.48 GiB           2.79 GiB         2.70 GiB
