@@ -1,0 +1,47 @@
+26/10/04 12:21:40 INFO SparkContext: Running Spark version 3.5.3
+26/10/04 12:21:40 INFO SparkContext: OS info Linux, 7.0.0-30-generic, aarch64
+26/10/04 12:21:40 INFO SparkContext: Java version 11.0.24
+26/10/04 12:21:40 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/04 12:21:40 INFO ResourceUtils: ==============================================================
+26/10/04 12:21:40 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/04 12:21:40 INFO ResourceUtils: ==============================================================
+26/10/04 12:21:40 INFO SparkContext: Submitted application: spark_clean
+26/10/04 12:21:40 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 2500, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/04 12:21:40 INFO ResourceProfile: Limiting resource is cpu
+26/10/04 12:21:40 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/04 12:21:40 INFO SecurityManager: Changing view acls to: spark
+26/10/04 12:21:40 INFO SecurityManager: Changing modify acls to: spark
+26/10/04 12:21:40 INFO SecurityManager: Changing view acls groups to: 
+26/10/04 12:21:40 INFO SecurityManager: Changing modify acls groups to: 
+26/10/04 12:21:40 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/04 12:21:41 INFO Utils: Successfully started service 'sparkDriver' on port 40179.
+26/10/04 12:21:41 INFO SparkEnv: Registering MapOutputTracker
+26/10/04 12:21:41 INFO SparkEnv: Registering BlockManagerMaster
+26/10/04 12:21:41 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/04 12:21:41 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/04 12:21:41 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/04 12:21:41 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-288d4a1d-bca6-407b-85b1-6abe87c36fbc
+26/10/04 12:21:41 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+26/10/04 12:21:41 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/04 12:21:41 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/10/04 12:21:41 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/04 12:21:41 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/10/04 12:21:41 INFO TransportClientFactory: Successfully created connection to spark-master/172.18.0.2:7077 after 12 ms (0 ms spent in bootstraps)
+26/10/04 12:21:41 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261004122141-0000
+26/10/04 12:21:41 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 44639.
+26/10/04 12:21:41 INFO NettyBlockTransferService: Server created on spark-master:44639
+26/10/04 12:21:41 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/04 12:21:41 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 44639, None)
+26/10/04 12:21:41 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:44639 with 1048.8 MiB RAM, BlockManagerId(driver, spark-master, 44639, None)
+26/10/04 12:21:41 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 44639, None)
+26/10/04 12:21:41 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 44639, None)
+26/10/04 12:21:41 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261004122141-0000/0 on worker-20261004122127-172.18.0.4-38373 (172.18.0.4:38373) with 2 core(s)
+26/10/04 12:21:41 INFO StandaloneSchedulerBackend: Granted executor ID app-20261004122141-0000/0 on hostPort 172.18.0.4:38373 with 2 core(s), 2.4 GiB RAM
+26/10/04 12:21:41 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261004122141-0000/1 on worker-20261004122127-172.18.0.3-37527 (172.18.0.3:37527) with 2 core(s)
+26/10/04 12:21:41 INFO StandaloneSchedulerBackend: Granted executor ID app-20261004122141-0000/1 on hostPort 172.18.0.3:37527 with 2 core(s), 2.4 GiB RAM
+26/10/04 12:21:41 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261004122141-0000/1 is now RUNNING
+26/10/04 12:21:41 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261004122141-0000/0 is now RUNNING
+26/10/04 12:21:41 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+36 files in 2 schema groups
+26/10/04 12:29:55 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+[timing] end-to-end wall clock: 598.38 s
