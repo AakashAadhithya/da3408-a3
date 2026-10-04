@@ -53,3 +53,6 @@ Dev slice: add `--pattern 'yellow_tripdata_2023-0[12].parquet' --debug` to eithe
 - Ray needed memory-driven redesigns (month-partitioned exact dedupe, bounded batches/files, one file per
   read task) to run on 4 GiB workers — see the *Performance Tuning Note* in the report and `AI_USAGE.md`.
 - All numbers come from the logs in `bench/`; nothing was generated synthetically.
+
+## Video walkthrough
+Demo and explanation: https://drive.google.com/drive/folders/1dI86TMBp9U-3edFipbzGoFGR6l4mNJOn?usp=share_link
