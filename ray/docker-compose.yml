@@ -1,6 +1,6 @@
 services:
   ray-head:
-    image: rayproject/ray:latest-py311-aarch64
+    image: rayproject/ray:2.59.0-py311-aarch64
     hostname: ray-head
     command: >
       ray start --head --port=6379
@@ -18,7 +18,7 @@ services:
     networks: [raynet]
 
   ray-worker-1:
-    image: rayproject/ray:latest-py311-aarch64
+    image: rayproject/ray:2.59.0-py311-aarch64
     hostname: ray-worker-1
     command: >
       ray start --address=ray-head:6379
@@ -35,7 +35,7 @@ services:
     networks: [raynet]
 
   ray-worker-2:
-    image: rayproject/ray:latest-py311-aarch64
+    image: rayproject/ray:2.59.0-py311-aarch64
     hostname: ray-worker-2
     command: >
       ray start --address=ray-head:6379

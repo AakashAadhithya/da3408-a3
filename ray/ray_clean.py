@@ -140,8 +140,10 @@ def make_hour_join(hourly):
         return t.select(OUT_COLS)
     return hour_join_batch
 
-def transform(ds, zones, log):
-    ds = ds.map_batches(udf_batch, **MB).materialize()                    # == Spark persist()
+def transform(ds, zones, log, ckpt):
+    shutil.rmtree(ckpt, ignore_errors=True)
+    ds.map_batches(udf_batch, **MB).write_parquet(ckpt)                  # checkpoint: UDF runs exactly once
+    ds = ray.data.read_parquet(ckpt)
     log("4 UDF + speed<=100 filter", ds)
     ds = ds.map_batches(make_zone_join(zones), **MB)
     rows = ds.groupby("pickup_hour").mean("avg_speed_mph").take_all()
@@ -173,7 +175,8 @@ if __name__ == "__main__":
     print(f"{len(files)} files in {len(groups)} schema groups")
     log("0 ingested", ds)
     ds = cleanse(ds, log)
-    ds = transform(ds, load_zones(args.zones), log)
+    ds = transform(ds, load_zones(args.zones), log, args.output + "_ckpt")
     shutil.rmtree(args.output, ignore_errors=True)            # == Spark mode("overwrite")
     ds.write_parquet(args.output)                             # Stage 3: export
     print(f"[timing] end-to-end wall clock: {time.perf_counter() - t0:.2f} s")
+    shutil.rmtree(args.output + "_ckpt", ignore_errors=True)

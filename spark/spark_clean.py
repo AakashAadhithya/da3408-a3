@@ -1,5 +1,5 @@
 """spark_clean.py — NYC Taxi cleansing pipeline (Spark)."""
-import argparse, csv, glob, os, time
+import argparse, csv, glob, os, shutil, time
 from pyspark.sql import SparkSession, functions as F
 from pyspark.sql.types import StructType, StructField, DoubleType
 
@@ -77,13 +77,14 @@ def load_zones(spark, path):
                 for r in csv.DictReader(f)]
     return spark.createDataFrame(rows, "LocationID int, Borough string, Zone string, service_zone string")
 
-def transform(df, zones, log):
+def transform(spark, df, zones, log, ckpt):
     df = (df.withColumn("_f", trip_features_udf(F.col(PU), F.col(DO), F.col("trip_distance")))
             .withColumn("duration_min", F.col("_f.duration_min"))
             .withColumn("avg_speed_mph", F.col("_f.avg_speed_mph"))
             .drop("_f")
             .filter(F.col("avg_speed_mph") <= 100))
-    df = df.persist()
+    df.write.mode("overwrite").parquet(ckpt)          # checkpoint: UDF runs exactly once
+    df = spark.read.parquet(ckpt)
     log("4 UDF + speed<=100 filter", df)
 
     z = F.broadcast(zones)
@@ -124,7 +125,8 @@ if __name__ == "__main__":
     print(f"{len(files)} files in {len(groups)} schema groups")
     log("0 ingested", df)
     df = cleanse(df, log)
-    df = transform(df, load_zones(spark, args.zones), log)
+    df = transform(spark, df, load_zones(spark, args.zones), log, args.output + "_ckpt")
     df.write.mode("overwrite").parquet(args.output)          # Stage 3: export (the action)
     print(f"[timing] end-to-end wall clock: {time.perf_counter() - t0:.2f} s")
+    shutil.rmtree(args.output + "_ckpt", ignore_errors=True)
     spark.stop()
