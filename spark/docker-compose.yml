@@ -10,6 +10,7 @@ services:
     volumes:
       - /home/aakash/data:/data
       - ../results:/results
+      - ..:/workspace
     networks: [sparknet]
 
   spark-worker-1:
