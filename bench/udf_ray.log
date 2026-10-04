@@ -1,0 +1,40 @@
+2026-10-04 06:29:20,767	INFO worker.py:1836 -- Connecting to existing Ray cluster at address: 172.18.0.2:6379...
+2026-10-04 06:29:20,773	INFO worker.py:2024 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://172.18.0.2:8265 [39m[22m
+2026-10-04 06:29:21,155	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62Kj3WWkJ1Z1y1B2JU_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:21,155	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62Kj3WWkJ1Z1y1B2JU_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ListFiles] -> TaskPoolMapOperator[ReadFilesParquetV2]
+2026-10-04 06:29:21,156	WARNING __init__.py:28 -- Progress bars disabled. To enable, set `ray.data.DataContext.get_current().enable_progress_bars = True`.
+2026-10-04 06:29:22,940	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62Kj3WWkJ1Z1y1B2JU_0 execution finished in 1.78 seconds
+[udf] ray input rows: 20,252,892
+2026-10-04 06:29:22,966	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62NidEs9noZOhaN4Zi_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:22,966	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62NidEs9noZOhaN4Zi_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_native)]
+2026-10-04 06:29:23,566	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62NidEs9noZOhaN4Zi_0 execution finished in 0.60 seconds
+2026-10-04 06:29:23,572	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62OfhFQSjBJoypqv9P_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:23,572	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62OfhFQSjBJoypqv9P_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_native)]
+2026-10-04 06:29:24,131	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62OfhFQSjBJoypqv9P_0 execution finished in 0.56 seconds
+2026-10-04 06:29:24,136	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62PYig4vX2KeVOOe7g_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:24,137	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62PYig4vX2KeVOOe7g_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_native)]
+2026-10-04 06:29:24,672	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62PYig4vX2KeVOOe7g_0 execution finished in 0.54 seconds
+2026-10-04 06:29:24,679	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62QPUyWFApOoUYWUQy_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:24,679	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62QPUyWFApOoUYWUQy_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_native)]
+2026-10-04 06:29:25,143	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62QPUyWFApOoUYWUQy_0 execution finished in 0.46 seconds
+[udf] ray   native      median=   0.54s runs=[0.56, 0.54, 0.47] check_d=3.277751e+08 check_s=2.313699e+08
+2026-10-04 06:29:25,149	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62R9SLnCXkeqGGU7JA_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:25,149	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62R9SLnCXkeqGGU7JA_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_row)]
+2026-10-04 06:29:37,475	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62R9SLnCXkeqGGU7JA_0 execution finished in 12.32 seconds
+2026-10-04 06:29:37,482	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a62kXaBdU1UyNzp7Sci_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:37,482	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a62kXaBdU1UyNzp7Sci_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_row)]
+2026-10-04 06:29:49,495	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a62kXaBdU1UyNzp7Sci_0 execution finished in 12.01 seconds
+2026-10-04 06:29:49,500	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a633RAE5c47qZOKDPo5_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:29:49,500	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a633RAE5c47qZOKDPo5_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_row)]
+2026-10-04 06:30:02,120	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a633RAE5c47qZOKDPo5_0 execution finished in 12.62 seconds
+[udf] ray   row_python  median=  12.33s runs=[12.33, 12.02, 12.62] check_d=3.277751e+08 check_s=2.313699e+08
+2026-10-04 06:30:02,126	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a63NHrunqRXjx3ztVQF_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:30:02,126	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a63NHrunqRXjx3ztVQF_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_pandas)]
+2026-10-04 06:30:02,688	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a63NHrunqRXjx3ztVQF_0 execution finished in 0.56 seconds
+2026-10-04 06:30:02,694	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a63OBNTe2cQRyQ9PFRe_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:30:02,694	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a63OBNTe2cQRyQ9PFRe_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_pandas)]
+2026-10-04 06:30:03,222	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a63OBNTe2cQRyQ9PFRe_0 execution finished in 0.53 seconds
+2026-10-04 06:30:03,227	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a63P1KBq5jGGSZpxfXH_0. Full logs are in /tmp/ray/session_2026-10-04_06-29-06_836586_1/logs/ray-data
+2026-10-04 06:30:03,227	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a63P1KBq5jGGSZpxfXH_0: InputDataBuffer[Input] -> TaskPoolMapOperator[MapBatches(v_pandas)]
+2026-10-04 06:30:03,709	INFO streaming_executor.py:365 -- ✔️  Dataset dataset_034a63P1KBq5jGGSZpxfXH_0 execution finished in 0.48 seconds
+[udf] ray   pandas      median=   0.53s runs=[0.57, 0.53, 0.49] check_d=3.277751e+08 check_s=2.313699e+08

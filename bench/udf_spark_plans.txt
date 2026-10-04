@@ -1,0 +1,240 @@
+26/10/04 13:36:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/04 13:36:43 INFO SparkContext: Running Spark version 3.5.3
+26/10/04 13:36:43 INFO SparkContext: OS info Linux, 7.0.0-30-generic, aarch64
+26/10/04 13:36:43 INFO SparkContext: Java version 11.0.24
+26/10/04 13:36:43 INFO ResourceUtils: ==============================================================
+26/10/04 13:36:43 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/04 13:36:43 INFO ResourceUtils: ==============================================================
+26/10/04 13:36:43 INFO SparkContext: Submitted application: udf_plans
+26/10/04 13:36:43 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memory -> name: memory, amount: 2500, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/04 13:36:43 INFO ResourceProfile: Limiting resource is cpu
+26/10/04 13:36:43 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/04 13:36:43 INFO SecurityManager: Changing view acls to: spark
+26/10/04 13:36:43 INFO SecurityManager: Changing modify acls to: spark
+26/10/04 13:36:43 INFO SecurityManager: Changing view acls groups to: 
+26/10/04 13:36:43 INFO SecurityManager: Changing modify acls groups to: 
+26/10/04 13:36:43 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/04 13:36:43 INFO Utils: Successfully started service 'sparkDriver' on port 38617.
+26/10/04 13:36:43 INFO SparkEnv: Registering MapOutputTracker
+26/10/04 13:36:43 INFO SparkEnv: Registering BlockManagerMaster
+26/10/04 13:36:43 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/04 13:36:43 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/04 13:36:43 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/04 13:36:43 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-d822a257-f52f-4765-b8b7-f57c515beed0
+26/10/04 13:36:43 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+26/10/04 13:36:43 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/04 13:36:43 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/10/04 13:36:43 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/04 13:36:43 INFO SparkContext: Added file file:///workspace/spark/udf_bench.py at spark://spark-master:38617/files/udf_bench.py with timestamp 1791121003322
+26/10/04 13:36:43 INFO Utils: Copying /workspace/spark/udf_bench.py to /tmp/spark-13f35e1f-0000-4b46-8277-54f2b577b45f/userFiles-95c05e39-63f2-4905-9a93-5290c033a481/udf_bench.py
+26/10/04 13:36:43 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/10/04 13:36:43 INFO TransportClientFactory: Successfully created connection to spark-master/172.18.0.2:7077 after 10 ms (0 ms spent in bootstraps)
+26/10/04 13:36:43 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261004133643-0005
+26/10/04 13:36:43 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261004133643-0005/0 on worker-20261004133057-172.18.0.3-44351 (172.18.0.3:44351) with 2 core(s)
+26/10/04 13:36:43 INFO StandaloneSchedulerBackend: Granted executor ID app-20261004133643-0005/0 on hostPort 172.18.0.3:44351 with 2 core(s), 2.4 GiB RAM
+26/10/04 13:36:43 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261004133643-0005/1 on worker-20261004133057-172.18.0.4-36723 (172.18.0.4:36723) with 2 core(s)
+26/10/04 13:36:43 INFO StandaloneSchedulerBackend: Granted executor ID app-20261004133643-0005/1 on hostPort 172.18.0.4:36723 with 2 core(s), 2.4 GiB RAM
+26/10/04 13:36:43 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 35079.
+26/10/04 13:36:43 INFO NettyBlockTransferService: Server created on spark-master:35079
+26/10/04 13:36:43 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/04 13:36:43 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 35079, None)
+26/10/04 13:36:43 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:35079 with 1048.8 MiB RAM, BlockManagerId(driver, spark-master, 35079, None)
+26/10/04 13:36:43 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 35079, None)
+26/10/04 13:36:43 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 35079, None)
+26/10/04 13:36:43 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261004133643-0005/1 is now RUNNING
+26/10/04 13:36:43 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261004133643-0005/0 is now RUNNING
+26/10/04 13:36:43 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+
+===== native =====
+== Physical Plan ==
+AdaptiveSparkPlan (8)
++- HashAggregate (7)
+   +- HashAggregate (6)
+      +- GlobalLimit (5)
+         +- Exchange (4)
+            +- LocalLimit (3)
+               +- Project (2)
+                  +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Batched: true
+Location: InMemoryFileIndex [file:/data/udf_input]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,tpep_dropoff_datetime:timestamp_ntz,trip_distance:double>
+
+(2) Project
+Output [2]: [((cast(cast(tpep_dropoff_datetime#2 as timestamp) as double) - cast(cast(tpep_pickup_datetime#1 as timestamp) as double)) / 60.0) AS d#60, (trip_distance#4 / ((cast(cast(tpep_dropoff_datetime#2 as timestamp) as double) - cast(cast(tpep_pickup_datetime#1 as timestamp) as double)) / 3600.0)) AS s#61]
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+
+(3) LocalLimit
+Input [2]: [d#60, s#61]
+Arguments: 1000000
+
+(4) Exchange
+Input [2]: [d#60, s#61]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=21]
+
+(5) GlobalLimit
+Input [2]: [d#60, s#61]
+Arguments: 1000000, 0
+
+(6) HashAggregate
+Input [2]: [d#60, s#61]
+Keys: []
+Functions [2]: [partial_sum(d#60), partial_sum(s#61)]
+Aggregate Attributes [2]: [sum#73, sum#74]
+Results [2]: [sum#75, sum#76]
+
+(7) HashAggregate
+Input [2]: [sum#75, sum#76]
+Keys: []
+Functions [2]: [sum(d#60), sum(s#61)]
+Aggregate Attributes [2]: [sum(d#60)#65, sum(s#61)#66]
+Results [2]: [sum(d#60)#65 AS sum(d)#69, sum(s#61)#66 AS sum(s)#70]
+
+(8) AdaptiveSparkPlan
+Output [2]: [sum(d)#69, sum(s)#70]
+Arguments: isFinalPlan=false
+
+
+
+===== row_udf =====
+== Physical Plan ==
+AdaptiveSparkPlan (11)
++- HashAggregate (10)
+   +- Exchange (9)
+      +- HashAggregate (8)
+         +- Project (7)
+            +- Project (6)
+               +- BatchEvalPython (5)
+                  +- GlobalLimit (4)
+                     +- Exchange (3)
+                        +- LocalLimit (2)
+                           +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Batched: true
+Location: InMemoryFileIndex [file:/data/udf_input]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,tpep_dropoff_datetime:timestamp_ntz,trip_distance:double>
+
+(2) LocalLimit
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: 1000000
+
+(3) Exchange
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=96]
+
+(4) GlobalLimit
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: 1000000, 0
+
+(5) BatchEvalPython
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: [trip_features(tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4)#77], [pythonUDF0#94]
+
+(6) Project
+Output [1]: [pythonUDF0#94 AS f#78]
+Input [4]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4, pythonUDF0#94]
+
+(7) Project
+Output [2]: [f#78.duration_min AS d#80, f#78.avg_speed_mph AS s#81]
+Input [1]: [f#78]
+
+(8) HashAggregate
+Input [2]: [d#80, s#81]
+Keys: []
+Functions [2]: [partial_sum(d#80), partial_sum(s#81)]
+Aggregate Attributes [2]: [sum#95, sum#96]
+Results [2]: [sum#97, sum#98]
+
+(9) Exchange
+Input [2]: [sum#97, sum#98]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=103]
+
+(10) HashAggregate
+Input [2]: [sum#97, sum#98]
+Keys: []
+Functions [2]: [sum(d#80), sum(s#81)]
+Aggregate Attributes [2]: [sum(d#80)#86, sum(s#81)#87]
+Results [2]: [sum(d#80)#86 AS sum(d)#90, sum(s#81)#87 AS sum(s)#91]
+
+(11) AdaptiveSparkPlan
+Output [2]: [sum(d)#90, sum(s)#91]
+Arguments: isFinalPlan=false
+
+
+
+===== pandas_udf =====
+== Physical Plan ==
+AdaptiveSparkPlan (11)
++- HashAggregate (10)
+   +- Exchange (9)
+      +- HashAggregate (8)
+         +- Project (7)
+            +- Project (6)
+               +- ArrowEvalPython (5)
+                  +- GlobalLimit (4)
+                     +- Exchange (3)
+                        +- LocalLimit (2)
+                           +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Batched: true
+Location: InMemoryFileIndex [file:/data/udf_input]
+ReadSchema: struct<tpep_pickup_datetime:timestamp_ntz,tpep_dropoff_datetime:timestamp_ntz,trip_distance:double>
+
+(2) LocalLimit
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: 1000000
+
+(3) Exchange
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=230]
+
+(4) GlobalLimit
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: 1000000, 0
+
+(5) ArrowEvalPython
+Input [3]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4]
+Arguments: [_pandas_feats(cast(tpep_pickup_datetime#1 as timestamp), cast(tpep_dropoff_datetime#2 as timestamp), trip_distance#4)#105], [pythonUDF0#122], 200
+
+(6) Project
+Output [1]: [pythonUDF0#122 AS f#106]
+Input [4]: [tpep_pickup_datetime#1, tpep_dropoff_datetime#2, trip_distance#4, pythonUDF0#122]
+
+(7) Project
+Output [2]: [f#106.duration_min AS d#108, f#106.avg_speed_mph AS s#109]
+Input [1]: [f#106]
+
+(8) HashAggregate
+Input [2]: [d#108, s#109]
+Keys: []
+Functions [2]: [partial_sum(d#108), partial_sum(s#109)]
+Aggregate Attributes [2]: [sum#123, sum#124]
+Results [2]: [sum#125, sum#126]
+
+(9) Exchange
+Input [2]: [sum#125, sum#126]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=237]
+
+(10) HashAggregate
+Input [2]: [sum#125, sum#126]
+Keys: []
+Functions [2]: [sum(d#108), sum(s#109)]
+Aggregate Attributes [2]: [sum(d#108)#114, sum(s#109)#115]
+Results [2]: [sum(d#108)#114 AS sum(d)#118, sum(s#109)#115 AS sum(s)#119]
+
+(11) AdaptiveSparkPlan
+Output [2]: [sum(d)#118, sum(s)#119]
+Arguments: isFinalPlan=false
+
+
+
+>>> UI up for 180 s: http://192.168.64.2:4040 -> SQL / DataFrame

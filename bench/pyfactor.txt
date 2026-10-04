@@ -1,0 +1,2 @@
+python 3.8.10: 6.77 M rows/s (1,000,000 rows, best of 3)
+python 3.11.16: 7.12 M rows/s (1,000,000 rows, best of 3)
