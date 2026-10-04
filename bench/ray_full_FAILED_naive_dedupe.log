@@ -1,0 +1,142 @@
+2026-10-04 02:38:52,601	INFO worker.py:1836 -- Connecting to existing Ray cluster at address: 172.18.0.2:6379...
+2026-10-04 02:38:52,608	INFO worker.py:2024 -- Connected to Ray cluster. View the dashboard at [1m[32mhttp://172.18.0.2:8265 [39m[22m
+2026-10-04 02:38:53,037	INFO streaming_executor.py:214 -- Starting execution of Dataset dataset_034a0NfKGvFayvEVg8YuEe_0. Full logs are in /tmp/ray/session_2026-10-04_02-38-38_274140_1/logs/ray-data
+2026-10-04 02:38:53,037	INFO streaming_executor.py:215 -- Execution plan of Dataset dataset_034a0NfKGvFayvEVg8YuEe_0: InputDataBuffer[Input] -> TaskPoolMapOperator[ListFiles] -> TaskPoolMapOperator[ReadFilesParquetV2->MapBatches(normalize_batch)], InputDataBuffer[Input] -> TaskPoolMapOperator[ListFiles] -> TaskPoolMapOperator[ReadFilesParquetV2->MapBatches(normalize_batch)] -> UnionOperator[UnionOperator(MapBatches(normalize_batch), MapBatches(normalize_batch))] -> TaskPoolMapOperator[MapBatches(<lambda>)->MapBatches(validity_batch)->MapBatches(add_bucket)] -> HashShuffleOperator[Shuffle(key_columns=('_b',), num_partitions=200)] -> TaskPoolMapOperator[MapBatches(distinct_group)->MapBatches(time_features_batch)->MapBatches(udf_batch)->Write]
+2026-10-04 02:38:53,038	WARNING __init__.py:28 -- Progress bars disabled. To enable, set `ray.data.DataContext.get_current().enable_progress_bars = True`.
+2026-10-04 02:38:55,046	INFO hash_shuffle.py:1662 -- Estimated memory requirement for shuffling aggregator (partitions=200, aggregators=4, dataset (estimate)=0.1GiB): shuffle=32.3MiB, output=32.3MiB, total_base=64.7MiB, shuffle_aggregator_memory_estimate_skew_factor=1.3, total_with_skew=84.1MiB
+2026-10-04 02:40:40,282	WARNING streaming_executor_state.py:123 -- Operator TaskPoolMapOperator[ReadFilesParquetV2->MapBatches(normalize_batch)] is running but has no outputs for 84.4176824092865 seconds. Execution may be slower than expected.
+Ignore this warning if your UDF is expected to be slow. Otherwise, this can happen when there are fewer cluster resources available to Ray Data than expected. If you have non-Data tasks or actors running in the cluster, exclude their resources from Ray Data with `DataContext.get_current().execution_options.exclude_resources`. This message will only print once.
+[36m(raylet, ip=172.18.0.3)[0m Spilled 2051 MiB, 126 objects, write throughput 1432 MiB/s. Set RAY_verbose_spill_logs=0 to disable this message.
+[36m(raylet, ip=172.18.0.4)[0m Spilled 2052 MiB, 122 objects, write throughput 1054 MiB/s. Set RAY_verbose_spill_logs=0 to disable this message.
+[36m(raylet, ip=172.18.0.3)[0m Spilled 4276 MiB, 381 objects, write throughput 1007 MiB/s.
+[36m(raylet, ip=172.18.0.4)[0m Spilled 4341 MiB, 562 objects, write throughput 847 MiB/s.
+[33m(raylet, ip=172.18.0.3)[0m [symbolize_elf.inc : 1012] RAW: /proc/self/task/27/maps: errno=24
+[33m(raylet, ip=172.18.0.3)[0m [2026-10-04 02:56:26,988 C 27 43] (raylet) client.cc:82:  An unexpected system state has occurred. You have likely discovered a bug in Ray. Please report this issue at https://github.com/ray-project/ray/issues and we'll work with you to fix it. Check failed: store_conn_->RecvFd(&fd.first) Status not OK: IOError: Failed to receive the fd. 
+[33m(raylet, ip=172.18.0.3)[0m *** StackTrace Information ***
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf22d68) [0xc17ddd512d68]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf257f8) [0xc17ddd5157f8]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x39fa4c) [0xc17ddc98fa4c]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a065c) [0xc17ddc99065c]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a10d8) [0xc17ddc9910d8]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x397a1c) [0xc17ddc987a1c]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x398ae8) [0xc17ddc988ae8]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3817e4) [0xc17ddc9717e4]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x381b64) [0xc17ddc971b64]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x38cad4) [0xc17ddc97cad4]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x83e6ec) [0xc17ddce2e6ec]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x8344c8) [0xc17ddce244c8]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x835694) [0xc17ddce25694]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeebf20) [0xc17ddd4dbf20]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee1e4) [0xc17ddd4de1e4]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee7e8) [0xc17ddd4de7e8]
+[33m(raylet, ip=172.18.0.3)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf6ba4c) [0xc17ddd55ba4c]
+[33m(raylet, ip=172.18.0.3)[0m /lib/aarch64-linux-gnu/libc.so.6(+0x803c8) [0xfdadeafc03c8]
+[33m(raylet, ip=172.18.0.3)[0m /lib/aarch64-linux-gnu/libc.so.6(+0xe9fdc) [0xfdadeb029fdc]
+[33m(raylet, ip=172.18.0.3)[0m 
+[2026-10-04 02:56:57,061 E 515 544] core_worker.cc:525: :info_message: Attempting to recover 3 lost objects by resubmitting their tasks or setting a new primary location from existing copies. To disable object reconstruction, set @ray.remote(max_retries=0).
+[33m(raylet, ip=172.18.0.4)[0m [2026-10-04 02:57:20,221 C 27 40] (raylet) dlmalloc.cc:161: create_buffer failed to open file /tmp/ray/session_2026-10-04_02-38-38_274140_1/plasmaviHTeh, errorToo many open files
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf22d68) [0xb608a5c92d68]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf257f8) [0xb608a5c957f8]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3f23a0) [0xb608a51623a0]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3f33f0) [0xb608a51633f0]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3f4400) [0xb608a5164400]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3dd074) [0xb608a514d074]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3f61cc) [0xb608a51661cc]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d9a40) [0xb608a5149a40]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d9fc8) [0xb608a5149fc8]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cbc40) [0xb608a513bc40]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cbe84) [0xb608a513be84]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d1d3c) [0xb608a5141d3c]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d2478) [0xb608a5142478]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3ce144) [0xb608a513e144]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cea84) [0xb608a513ea84]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cf98c) [0xb608a513f98c]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3e2698) [0xb608a5152698]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x44e67c) [0xb608a51be67c]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x83e6ec) [0xb608a55ae6ec]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x4504a0) [0xb608a51c04a0]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x450b44) [0xb608a51c0b44]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeebf20) [0xb608a5c5bf20]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee1e4) [0xb608a5c5e1e4]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee7e8) [0xb608a5c5e7e8]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3c8b7c) [0xb608a5138b7c]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x37bd00) [0xb608a50ebd00]
+[33m(raylet, ip=172.18.0.4)[0m /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf6ba4c) [0xb608a5cdba4c]
+[33m(raylet, ip=172.18.0.4)[0m /lib/aarch64-linux-gnu/libc.so.6(+0x803c8) [0xfef1ba9303c8]
+[33m(raylet, ip=172.18.0.4)[0m /lib/aarch64-linux-gnu/libc.so.6(+0xe9fdc) [0xfef1ba999fdc]
+[33m(raylet, ip=172.18.0.4)[0m 
+[33m(raylet, ip=172.18.0.4)[0m [symbolize_elf.inc : 1012] RAW: /proc/self/task/27/maps: errno=24
+[33m(raylet, ip=172.18.0.4)[0m *** StackTrace Information ***
+36 files in 2 schema groups
+[33m(raylet)[0m Raylet is terminated. Termination is unexpected. Possible reasons include: (1) SIGKILL by the user or system OOM killer, (2) Invalid memory access from Raylet causing SIGSEGV or SIGBUS, (3) Other termination signals. Last 20 lines of the Raylet logs:
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf257f8) [0xc17ddd5157f8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x39fa4c) [0xc17ddc98fa4c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a065c) [0xc17ddc99065c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a10d8) [0xc17ddc9910d8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x397a1c) [0xc17ddc987a1c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x398ae8) [0xc17ddc988ae8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3817e4) [0xc17ddc9717e4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x381b64) [0xc17ddc971b64]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x38cad4) [0xc17ddc97cad4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x83e6ec) [0xc17ddce2e6ec]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x8344c8) [0xc17ddce244c8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x835694) [0xc17ddce25694]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeebf20) [0xc17ddd4dbf20]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee1e4) [0xc17ddd4de1e4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee7e8) [0xc17ddd4de7e8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf6ba4c) [0xc17ddd55ba4c]
+    /lib/aarch64-linux-gnu/libc.so.6(+0x803c8) [0xfdadeafc03c8]
+    /lib/aarch64-linux-gnu/libc.so.6(+0xe9fdc) [0xfdadeb029fdc]
+    
+    [2026-10-04 02:56:26,988 W 27 52] (raylet) threshold_memory_monitor.cc:121: Unable to capture node memory. Monitor will not be able to detect memory usage above threshold.
+
+[33m(raylet)[0m Task HashShuffleAggregator.submit failed. There are infinite retries remaining, so the task will be retried. Error: The actor is temporarily unavailable: RpcError: RPC error: Socket closed rpc_code: 14
+[33m(raylet)[0m Task HashShuffleAggregator.submit failed. There are infinite retries remaining, so the task will be retried. Error: The actor is temporarily unavailable: RpcError: RPC error: failed to connect to all addresses; last error: UNKNOWN: ipv4:172.18.0.3:10004: Failed to connect to remote host: FD Shutdown rpc_code: 14
+[33m(raylet)[0m Raylet is terminated. Termination is unexpected. Possible reasons include: (1) SIGKILL by the user or system OOM killer, (2) Invalid memory access from Raylet causing SIGSEGV or SIGBUS, (3) Other termination signals. Last 20 lines of the Raylet logs:
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf257f8) [0xc17ddd5157f8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x39fa4c) [0xc17ddc98fa4c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a065c) [0xc17ddc99065c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3a10d8) [0xc17ddc9910d8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x397a1c) [0xc17ddc987a1c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x398ae8) [0xc17ddc988ae8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3817e4) [0xc17ddc9717e4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x381b64) [0xc17ddc971b64]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x38cad4) [0xc17ddc97cad4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x83e6ec) [0xc17ddce2e6ec]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x8344c8) [0xc17ddce244c8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x835694) [0xc17ddce25694]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeebf20) [0xc17ddd4dbf20]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee1e4) [0xc17ddd4de1e4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee7e8) [0xc17ddd4de7e8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf6ba4c) [0xc17ddd55ba4c]
+    /lib/aarch64-linux-gnu/libc.so.6(+0x803c8) [0xfdadeafc03c8]
+    /lib/aarch64-linux-gnu/libc.so.6(+0xe9fdc) [0xfdadeb029fdc]
+    
+    [2026-10-04 02:56:26,988 W 27 52] (raylet) threshold_memory_monitor.cc:121: Unable to capture node memory. Monitor will not be able to detect memory usage above threshold.
+
+[33m(raylet)[0m Task HashShuffleAggregator.submit failed. There are infinite retries remaining, so the task will be retried. Error: The actor is temporarily unavailable: RpcError: RPC error: Socket closed rpc_code: 14[32m [repeated 5x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[33m(raylet)[0m Task HashShuffleAggregator.submit failed. There are infinite retries remaining, so the task will be retried. Error: The actor is temporarily unavailable: RpcError: RPC error: failed to connect to all addresses; last error: UNKNOWN: ipv4:172.18.0.3:10004: Failed to connect to remote host: FD Shutdown rpc_code: 14[32m [repeated 24x across cluster][0m
+[33m(raylet)[0m The node with node id: ac185eccd77aded5891c334529d7c341576b62a008e5048bb6a32c8a and address: 172.18.0.3 and node name: 172.18.0.3 has been marked dead because the detector has missed too many heartbeats from it. This can happen when a 	(1) raylet crashes unexpectedly (OOM, etc.) 
+	(2) raylet has lagging heartbeats due to slow network or busy workload.
+[33m(raylet)[0m Raylet is terminated. Termination is unexpected. Possible reasons include: (1) SIGKILL by the user or system OOM killer, (2) Invalid memory access from Raylet causing SIGSEGV or SIGBUS, (3) Other termination signals. Last 20 lines of the Raylet logs:
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cbe84) [0xb608a513be84]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d1d3c) [0xb608a5141d3c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3d2478) [0xb608a5142478]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3ce144) [0xb608a513e144]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cea84) [0xb608a513ea84]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3cf98c) [0xb608a513f98c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3e2698) [0xb608a5152698]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x44e67c) [0xb608a51be67c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x83e6ec) [0xb608a55ae6ec]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x4504a0) [0xb608a51c04a0]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x450b44) [0xb608a51c0b44]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeebf20) [0xb608a5c5bf20]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee1e4) [0xb608a5c5e1e4]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xeee7e8) [0xb608a5c5e7e8]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x3c8b7c) [0xb608a5138b7c]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0x37bd00) [0xb608a50ebd00]
+    /home/ray/anaconda3/lib/python3.11/site-packages/ray/core/src/ray/raylet/raylet(+0xf6ba4c) [0xb608a5cdba4c]
+    /lib/aarch64-linux-gnu/libc.so.6(+0x803c8) [0xfef1ba9303c8]
+    /lib/aarch64-linux-gnu/libc.so.6(+0xe9fdc) [0xfef1ba999fdc]
+    
+[2026-10-04 02:57:51,026 E 515 544] core_worker.cc:525: :info_message: Attempting to recover 7 lost objects by resubmitting their tasks or setting a new primary location from existing copies. To disable object reconstruction, set @ray.remote(max_retries=0).

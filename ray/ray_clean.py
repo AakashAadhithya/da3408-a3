@@ -1,5 +1,12 @@
-"""ray_clean.py — NYC Taxi cleansing pipeline (Ray Data). Same contract as spark_clean.py."""
-import argparse, csv, glob, os, shutil, time
+"""ray_clean.py — NYC Taxi cleansing pipeline (Ray Data). Same output contract as spark_clean.py.
+
+Scaled design (a global Ray Data hash shuffle stalled on 4 GB workers at full scale):
+  A) ingest + normalize + nulls + validity -> staged Parquet partitioned by pickup month
+  B) per month: exact bucketed dedupe -> time features -> Python UDF -> checkpoint
+     (duplicates share pickup time, hence pickup month => per-month dedupe == global dedupe)
+  C) hourly mean from per-block partial sums (no shuffle) -> zone + hour lookups -> export
+"""
+import argparse, csv, glob, hashlib, os, shutil, time
 from datetime import datetime
 from functools import reduce
 import pyarrow as pa, pyarrow.compute as pc, pyarrow.parquet as pq
@@ -21,7 +28,8 @@ OUT_COLS = list(TARGET) + [
     "pickup_date", "pickup_hour", "pickup_dow", "duration_min", "avg_speed_mph",
     "pu_borough", "pu_zone", "do_borough", "do_zone", "hour_avg_speed", "speed_vs_hour",
 ]
-MB = dict(batch_format="pyarrow", batch_size=None)        # one Arrow table per block
+MB = dict(batch_format="pyarrow", batch_size=250_000)        # one Arrow table per block
+N_BUCKETS = 64
 
 def all_of(*conds):
     return reduce(pc.and_, conds)
@@ -65,13 +73,36 @@ def validity_batch(t):
     )
     return t.filter(mask)
 
-def time_features_batch(t):
-    t = t.append_column("pickup_date", pc.cast(t[PU], pa.date32()))
-    t = t.append_column("pickup_hour", pc.cast(pc.hour(t[PU]), pa.int32()))
-    dow = pc.day_of_week(t[PU], count_from_zero=False, week_start=1)       # ISO 1=Mon..7=Sun
-    return t.append_column("pickup_dow", pc.cast(dow, pa.int32()))
+def write_idempotent(t, out_dir):
+    """Content-derived file name + atomic rename: a retried task overwrites its own file, never duplicates it."""
+    if t.num_rows == 0:
+        return
+    pu = pc.cast(t[PU], pa.int64())
+    key = f"{t.num_rows}_{pc.min(pu).as_py()}_{pc.max(pu).as_py()}_{pc.sum(t['trip_distance']).as_py():.6f}"
+    name = hashlib.sha1(key.encode()).hexdigest() + ".parquet"
+    os.makedirs(out_dir, exist_ok=True)
+    tmp = os.path.join(out_dir, "." + name + ".tmp")          # hidden -> never read half-written
+    pq.write_table(t, tmp)
+    os.replace(tmp, os.path.join(out_dir, name))
 
-N_BUCKETS = 64
+def make_month_writer(stage):
+    """Phase A: per-batch, per-month files under stage/pm=YYYY-MM/."""
+    def write_months(t):
+        pm = pc.strftime(t[PU], format="%Y-%m")
+        months, counts = [], []
+        for m in pc.unique(pm).to_pylist():
+            part = t.filter(pc.equal(pm, m))
+            write_idempotent(part, os.path.join(stage, f"pm={m}"))
+            months.append(m); counts.append(part.num_rows)
+        return pa.table({"pm": pa.array(months, pa.string()), "rows": pa.array(counts, pa.int64())})
+    return write_months
+
+def make_file_writer(out_dir):
+    """Phase B checkpoint: one bounded-size file per batch (<= 250k rows)."""
+    def write_files(t):
+        write_idempotent(t, out_dir)
+        return pa.table({"rows": pa.array([t.num_rows], pa.int64())})
+    return write_files
 
 def add_bucket(t):
     """Bucket = pickup_seconds % N. Exact duplicates share pickup time -> same bucket."""
@@ -80,21 +111,18 @@ def add_bucket(t):
     return t.append_column("_b", b)
 
 def distinct_group(t):
-    """Exact distinct rows within one bucket (pyarrow C++ hash group-by)."""
+    """Exact distinct rows within one bucket; also drops helper columns (pm, _b)."""
     keys = list(TARGET)
     return t.group_by(keys).aggregate([]).select(keys)
 
 def dedupe(ds):
     return ds.map_batches(add_bucket, **MB).groupby("_b").map_groups(distinct_group, batch_format="pyarrow")
 
-def cleanse(ds, log):
-    ds = ds.map_batches(lambda t: t.drop_null(), **MB)
-    log("1 null rows dropped", ds)
-    ds = ds.map_batches(validity_batch, **MB)
-    log("2 validity filters", ds)
-    ds = dedupe(ds)                                   # exact full-row dedupe (bucketed)
-    log("3 exact duplicates dropped", ds)
-    return ds.map_batches(time_features_batch, **MB)
+def time_features_batch(t):
+    t = t.append_column("pickup_date", pc.cast(t[PU], pa.date32()))
+    t = t.append_column("pickup_hour", pc.cast(pc.hour(t[PU]), pa.int32()))
+    dow = pc.day_of_week(t[PU], count_from_zero=False, week_start=1)       # ISO 1=Mon..7=Sun
+    return t.append_column("pickup_dow", pc.cast(dow, pa.int32()))
 
 # ---------- Stage 2: transform ----------
 def trip_features(pickup, dropoff, distance):
@@ -140,17 +168,16 @@ def make_hour_join(hourly):
         return t.select(OUT_COLS)
     return hour_join_batch
 
-def transform(ds, zones, log, ckpt):
-    shutil.rmtree(ckpt, ignore_errors=True)
-    ds.map_batches(udf_batch, **MB).write_parquet(ckpt)                  # checkpoint: UDF runs exactly once
-    ds = ray.data.read_parquet(ckpt)
-    log("4 UDF + speed<=100 filter", ds)
-    ds = ds.map_batches(make_zone_join(zones), **MB)
-    rows = ds.groupby("pickup_hour").mean("avg_speed_mph").take_all()
-    hourly = {r["pickup_hour"]: r["mean(avg_speed_mph)"] for r in rows}
-    ds = ds.map_batches(make_hour_join(hourly), **MB)
-    log("5 zones joined x2 + hourly avg joined", ds)
-    return ds
+def hour_partials(t):
+    """Per-block (hour, sum, count): at most 24 rows per block."""
+    return t.group_by("pickup_hour").aggregate([("avg_speed_mph", "sum"), ("avg_speed_mph", "count")])
+
+def hourly_means(ds):
+    acc = {}
+    for r in ds.map_batches(hour_partials, **MB).take_all():
+        s, c = acc.get(r["pickup_hour"], (0.0, 0))
+        acc[r["pickup_hour"]] = (s + r["avg_speed_mph_sum"], c + r["avg_speed_mph_count"])
+    return {h: s / c for h, (s, c) in acc.items()}
 
 # ---------- main ----------
 if __name__ == "__main__":
@@ -164,19 +191,58 @@ if __name__ == "__main__":
 
     ray.init(address="auto")
     ray.data.DataContext.get_current().enable_progress_bars = False
+    ray.data.DataContext.get_current().target_max_block_size = 64 * 1024 * 1024
 
     def log(name, ds):
         if args.debug:
             print(f"[stage] {name}: {ds.count():,} rows", flush=True)
 
+    stage, ckpt = args.output + "_stage", args.output + "_ckpt"
+    for d in (stage, ckpt, args.output):
+        shutil.rmtree(d, ignore_errors=True)
+
     t0 = time.perf_counter()                       # timer starts after cluster connection
+    # ---- A: row-wise cleansing, staged by pickup month ----
     files = sorted(glob.glob(os.path.join(args.input, args.pattern)))
     ds, groups = ingest(files)
     print(f"{len(files)} files in {len(groups)} schema groups")
     log("0 ingested", ds)
-    ds = cleanse(ds, log)
-    ds = transform(ds, load_zones(args.zones), log, args.output + "_ckpt")
-    shutil.rmtree(args.output, ignore_errors=True)            # == Spark mode("overwrite")
-    ds.write_parquet(args.output)                             # Stage 3: export
-    print(f"[timing] end-to-end wall clock: {time.perf_counter() - t0:.2f} s")
-    shutil.rmtree(args.output + "_ckpt", ignore_errors=True)
+    ds = ds.map_batches(lambda t: t.drop_null(), **MB)
+    log("1 null rows dropped", ds)
+    ds = ds.map_batches(validity_batch, **MB)
+    log("2 validity filters", ds)
+    ds.map_batches(make_month_writer(stage), **MB).take_all()       # triggers phase A
+    tA = time.perf_counter()
+
+    # ---- B: per-month exact dedupe + time features + UDF -> checkpoint ----
+    months = sorted(d for d in os.listdir(stage) if d.startswith("pm="))
+    n3 = 0
+    for m in months:
+        mfiles = sorted(glob.glob(os.path.join(stage, m, "*.parquet")))
+        dm = dedupe(ray.data.read_parquet(mfiles, override_num_blocks=len(mfiles)))
+        if args.debug:
+            n3 += dm.count()
+        (dm.map_batches(time_features_batch, **MB)
+           .map_batches(udf_batch, **MB)
+           .map_batches(make_file_writer(os.path.join(ckpt, "m" + m[3:])), **MB).take_all())
+    shutil.rmtree(stage, ignore_errors=True)
+    tB = time.perf_counter()
+    print(f"{len(months)} months deduped + UDF")
+    if args.debug:
+        print(f"[stage] 3 exact duplicates dropped: {n3:,} rows", flush=True)
+
+    # ---- C: hourly mean (partial sums) + zone/hour lookups -> export ----
+    ckpt_files = sorted(glob.glob(os.path.join(ckpt, "*", "*.parquet")))
+    ds = ray.data.read_parquet(ckpt_files, override_num_blocks=len(ckpt_files))   # 1 small file per read task
+    log("4 UDF + speed<=100 filter", ds)
+    hourly = hourly_means(ds)
+    ds = (ds.map_batches(make_zone_join(load_zones(args.zones)), **MB)
+            .map_batches(make_hour_join(hourly), **MB))
+    log("5 zones joined x2 + hourly avg joined", ds)
+    ds.write_parquet(args.output)
+    t1 = time.perf_counter()
+
+    print(f"[timing] phase A (ingest..validity, staged): {tA - t0:.2f} s")
+    print(f"[timing] phase B (per-month dedupe + UDF):  {tB - tA:.2f} s")
+    print(f"[timing] end-to-end wall clock: {t1 - t0:.2f} s")
+    shutil.rmtree(ckpt, ignore_errors=True)
